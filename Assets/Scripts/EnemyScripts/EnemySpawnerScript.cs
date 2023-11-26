@@ -27,10 +27,6 @@ public class enemyspawner : MonoBehaviour
             spawnenemy();
             timer = 0;
         }
-        if(transform.position.x < deathzone)
-        {
-            Destroy(enemy);
-        }
     }
 
     void spawnenemy()

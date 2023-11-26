@@ -8,14 +8,15 @@ public class enemyscript : MonoBehaviour
     public float moveSpeed = 5;
     public float deathzone = -19;
     private float attackTimer = 0f;
-    public float timeBetweenAttacks = 2f; // Time between each attack
-    
+    public float timeBetweenAttacks = 2f;
+
 
     [SerializeField]
     private GameObject enemy_Bullet;
 
     [SerializeField]
     private Transform enemy_attackPoint;
+
     void Start()
     {
         
@@ -36,6 +37,7 @@ public class enemyscript : MonoBehaviour
         // Check if the attackTimer exceeds the timeBetweenAttacks
         if (attackTimer >= timeBetweenAttacks)
         {
+            Debug.Log("AttackTimeTick");
             attackTimer = 0f; // Reset the attack timer
             Instantiate(enemy_Bullet, enemy_attackPoint.position, Quaternion.identity);
         }
@@ -44,6 +46,7 @@ public class enemyscript : MonoBehaviour
     {
         if (transform.position.x < deathzone)
         {
+
             Destroy(gameObject); // Destroy this specific enemy when it crosses the deathzone
         }
     }

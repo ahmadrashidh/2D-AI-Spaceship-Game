@@ -6,20 +6,21 @@ public class enemyscript : MonoBehaviour
 {
     // Start is called before the first frame update
     public float moveSpeed = 5;
-    public float deathzone = -19;
+
+    [SerializeField]
+    private GameObject EnemyBullet;
+
+    [SerializeField]
+    private Transform EnemyAttackPoint;
+
     private float attackTimer = 0f;
     public float timeBetweenAttacks = 2f;
-
-
-    [SerializeField]
-    private GameObject enemy_Bullet;
-
-    [SerializeField]
-    private Transform enemy_attackPoint;
+    public string target;
+    public float deathzone = -19;
 
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -27,9 +28,15 @@ public class enemyscript : MonoBehaviour
     {
         transform.position = transform.position + (Vector3.left * moveSpeed) * Time.deltaTime;
         Attack();
+        movePlayer();
         CheckDeathZone();
-        
     }
+    void movePlayer()
+    {
+        transform.position = transform.position + (Vector3.left * moveSpeed) * Time.deltaTime;
+    }
+
+
     void Attack()
     {
         attackTimer += Time.deltaTime;
@@ -39,15 +46,31 @@ public class enemyscript : MonoBehaviour
         {
             Debug.Log("AttackTimeTick");
             attackTimer = 0f; // Reset the attack timer
-            Instantiate(enemy_Bullet, enemy_attackPoint.position, Quaternion.identity);
+            Instantiate(EnemyBullet, EnemyAttackPoint.position, Quaternion.identity);
         }
     }
     void CheckDeathZone()
     {
         if (transform.position.x < deathzone)
         {
-
             Destroy(gameObject); // Destroy this specific enemy when it crosses the deathzone
+        }
+    }
+    public void Death()
+    {
+        Destroy(gameObject);
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (target == collision.name)
+        {
+            Debug.Log("collision.detected");
+            if (target == "Spaceship")
+            {
+                Death();
+                collision.gameObject.GetComponent<PlayerController>().Death();
+            }
+
         }
     }
 }

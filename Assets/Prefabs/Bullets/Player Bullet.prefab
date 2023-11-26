@@ -173,3 +173,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 4
   deactivateTimer: 7
+  target: Enemy
+  target1: Enemy Bullet

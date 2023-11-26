@@ -27,10 +27,11 @@ public class enemyspawner : MonoBehaviour
             timer = 0;
         }
     }
+
     void spawnenemy()
     {
         float lowestpoint = transform.position.y - HeightOffset;
         float Highestpoint = transform.position.y  + HeightOffset;
-        Instantiate(enemy, new Vector3(transform.position.x,Random.Range(lowestpoint,Highestpoint),0),transform.rotation);
+        Instantiate(enemy, new Vector3(transform.position.x,Random.Range(lowestpoint,Highestpoint),-10),transform.rotation);
     }
 }

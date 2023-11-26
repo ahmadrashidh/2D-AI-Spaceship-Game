@@ -9,6 +9,7 @@ public class enemyspawner : MonoBehaviour
     public float spawnRate = 2;
     public float timer = 0;
     public float HeightOffset = 10;
+    public float deathzone = -19;
     void Start()
     {
         spawnenemy();
@@ -25,6 +26,10 @@ public class enemyspawner : MonoBehaviour
         {
             spawnenemy();
             timer = 0;
+        }
+        if(transform.position.x < deathzone)
+        {
+            Destroy(enemy);
         }
     }
 

@@ -24,7 +24,13 @@ public class BoosterMoveScript : MonoBehaviour
         if (transform.position.x < deathzone)
         {
 
-            Destroy(gameObject); // Destroy this specific enemy when it crosses the deathzone
+            gameObject.SetActive(false);
         }
+    }
+
+    public void Die()
+    {
+        Debug.Log("Deactivating Booster");
+        gameObject.SetActive(false);
     }
 }

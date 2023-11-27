@@ -35,16 +35,20 @@ public class enemybulletscript : MonoBehaviour
     
     public void Death()
     {
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (target == collision.name)
         {
-            Debug.Log("collision.detected");
+            Debug.Log("collision.detected" + collision.name);
+
             if (target == "Spaceship")
             {
-                collision.gameObject.GetComponent<PlayerController>().Death();
+                PlayerController player = collision.gameObject.GetComponent<PlayerController>();
+                player.health -= 10;
+                player.healthText.text = player.health.ToString() + "%";
             }
             if (target1 == "Player Bullet.prefab")
             {

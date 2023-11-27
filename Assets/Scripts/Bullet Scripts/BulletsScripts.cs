@@ -8,6 +8,8 @@ public class BulletsScripts : MonoBehaviour
     public float deactivateTimer = 8f;
     public string target;
     public string target1;
+    private string ENEMY_LABEL = "Enemy";
+    private string ENEMY_BULLET_LABEL = "Enemy Bullet";
     // Start is called before the first frame update
     void Start()
     {
@@ -32,24 +34,23 @@ public class BulletsScripts : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
+
     public void Death()
     {
         Destroy(gameObject);
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (target == collision.name)
+        Debug.Log("Collision:" + collision.gameObject.name);
+        if (ENEMY_LABEL.Equals(collision.gameObject.name))
         {
-            Debug.Log("collision.detected");
-            if (target == "Enemy")
-            {
-                collision.gameObject.GetComponent<enemyscript>().Death();
-            }
-            if (target1 == "Enemy Bullet")
-            {
-                Death();
-                collision.gameObject.GetComponent<enemybulletscript>().Death();
-            }
+            collision.gameObject.GetComponent<enemyscript>().Death();
+
+        } else if (ENEMY_BULLET_LABEL.Equals(collision.gameObject.name))
+        {
+            Death();
+            collision.gameObject.GetComponent<enemybulletscript>().Death();
         }
     }
 

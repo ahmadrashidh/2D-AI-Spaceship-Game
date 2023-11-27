@@ -16,7 +16,8 @@ public class PlayerController : MonoBehaviour
     public float attackTimer = 1f;
     private float crntAttackTimer;
     private bool canAttack;
-    
+    public string target;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -80,5 +81,18 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Debug.Log("Collision Detected:" + collision.gameObject.name);
+    public void Death()
+    {
+        gameObject.SetActive(false);
+    }
+
+
+    private void OnTriggerEnter2D(Collision2D collision)
+    {
+        if (target == "Enemy")
+        {
+            Death();
+            collision.gameObject.GetComponent<enemyscript>().Death();
+        }
     }
 }

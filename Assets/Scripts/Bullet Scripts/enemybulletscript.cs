@@ -5,8 +5,9 @@ using UnityEngine;
 public class enemybulletscript : MonoBehaviour
 {
     public float speed = 5f;
+    public string target;
+    public string target1;
     public float deactivateTimer = 8f;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -21,13 +22,40 @@ public class enemybulletscript : MonoBehaviour
 
     void Move()
     {
-        // Move towards the negative x-axis (to the left)
-        transform.Translate(Vector3.left * speed * Time.deltaTime);
+        Vector3 temp = transform.position;
+        temp.x -= speed * Time.deltaTime;
+        transform.position = temp;
+
     }
 
     void DeactivateGameObject()
     {
         gameObject.SetActive(false);
     }
+    
+    public void Death()
+    {
+        Destroy(gameObject);
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (target == collision.name)
+        {
+            Debug.Log("collision.detected");
+            if (target == "Spaceship")
+            {
+                collision.gameObject.GetComponent<PlayerController>().Death();
+            }
+            if (target1 == "Player Bullet.prefab")
+            {
+                Death();
+                collision.gameObject.GetComponent<BulletsScripts>().Death();
+            }
+        }
+    }
+
+
+
 }
+
 

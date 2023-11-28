@@ -9,6 +9,8 @@ public class LogicManager : MonoBehaviour
     public GameObject gameOverScreen;
     public int score = 0;
     public Text scoreText;
+    public GameObject menuScreen;
+    public GameObject spaceShip;
     // Start is called before the first frame update
     void Start()
     {
@@ -31,6 +33,12 @@ public class LogicManager : MonoBehaviour
     public void restartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void startGame()
+    {
+        menuScreen.SetActive(false);
+        spaceShip.SetActive(true);
     }
 
     public void GameOver()

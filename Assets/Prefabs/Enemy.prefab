@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7952826690487410356}
   - component: {fileID: 2042420367925606806}
   - component: {fileID: 9121798986017114177}
+  - component: {fileID: 6549736467866871057}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -178,6 +179,28 @@ MonoBehaviour:
   deathzone: -19
   timeBetweenAttacks: 2
   target: Spaceship
+  target1: 
+--- !u!95 &6549736467866871057
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1872992379207120463}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a399f446dee52084c90a8fe9b0657c64, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8034668721018880526
 GameObject:
   m_ObjectHideFlags: 0

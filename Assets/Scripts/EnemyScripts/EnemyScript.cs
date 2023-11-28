@@ -18,11 +18,12 @@ public class enemyscript : MonoBehaviour
     public float timeBetweenAttacks = 10f;
     public string target;
     public string target1;
+    private Animator anim;
 
 
     void Start()
     {
-
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -80,6 +81,7 @@ public class enemyscript : MonoBehaviour
     }
     public void Death()
     {
-        Destroy(this.gameObject);
+        anim.Play("destruction");
+        Destroy(this.gameObject,0.15f);
     }
 }

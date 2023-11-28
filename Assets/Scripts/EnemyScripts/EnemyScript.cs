@@ -61,17 +61,4 @@ public class enemyscript : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (target == collision.name)
-        {
-            if (target == "Spaceship")
-            {
-                PlayerController player = collision.gameObject.GetComponent<PlayerController>();
-                player.health -= 25;
-                player.healthText.text = player.health.ToString() + "%";
-            }
-
-        }
-    }
 }

@@ -46,9 +46,8 @@ public class enemybulletscript : MonoBehaviour
 
             if (target == "Spaceship")
             {
-                PlayerController player = collision.gameObject.GetComponent<PlayerController>();
-                player.health -= 10;
-                player.healthText.text = player.health.ToString() + "%";
+                collision.gameObject.GetComponent<PlayerController>().addHealth(-10);
+               
             }
             if (target1 == "Player Bullet.prefab")
             {

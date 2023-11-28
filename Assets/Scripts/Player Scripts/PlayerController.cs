@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class PlayerController : MonoBehaviour
 {
     public float speed = 5f;
@@ -20,8 +21,10 @@ public class PlayerController : MonoBehaviour
     public string target;
     public string BOOSTER_LABEL = "Booster(Clone)";
     public string ENEMY_LABEL = "Enemy";
-    public int health;
-    public Text healthText;
+    public float health;
+    public Image progressFill;
+    private Vector3 progressScale;
+
     public LogicManager logic;
 
     // Start is called before the first frame update
@@ -29,7 +32,7 @@ public class PlayerController : MonoBehaviour
     {
         gameObject.SetActive(true);
         crntAttackTimer = attackTimer;
-        health = 0;
+        health = 100;
         logic = GameObject.FindGameObjectWithTag("logic").GetComponent<LogicManager>();
     }
 
@@ -38,11 +41,25 @@ public class PlayerController : MonoBehaviour
     {
         movePlayer();
         Attack();
-        if(health < 0)
+        checkHealth();
+
+    }
+
+    private void checkHealth()
+    {
+
+        progressScale = progressFill.rectTransform.localScale;
+
+        progressScale.x = (health / 100);
+        progressFill.rectTransform.localScale = progressScale;
+      
+
+        if (health < 0f)
         {
             gameObject.SetActive(false);
             logic.GameOver();
         }
+
     }
 
     void movePlayer()
@@ -97,26 +114,25 @@ public class PlayerController : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    public void addHealth(int score)
+    {
+        health = (health + score) > 100 ? 100 : (health + score);
+    }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("PlayerCollision:" + collision.gameObject.name);
 
 
         collision.gameObject.GetComponent<BoosterMoveScript>().Die();
 
         if (ENEMY_LABEL == collision.gameObject.name)
         {
-            health -= 25;
-            healthText.text = health.ToString() + "%";
+            addHealth(-25);
             collision.gameObject.GetComponent<enemyscript>().Death();
         } else
         {
-            if (health < 100)
-            {
-                health += 25;
-                healthText.text = health.ToString() + "%";
-            }
+            addHealth(25);
         }
     }
 }

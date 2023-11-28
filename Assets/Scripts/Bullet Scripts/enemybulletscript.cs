@@ -52,7 +52,7 @@ public class enemybulletscript : MonoBehaviour
             if (target1 == "Player Bullet.prefab")
             {
                 Death();
-                collision.gameObject.GetComponent<BulletsScripts>().Death();
+                
             }
         }
     }

@@ -9,10 +9,10 @@ public class enemyspawner : MonoBehaviour
     public float spawnRate = 2;
     public float timer = 0;
     public float HeightOffset = 10;
-    
+
     void Start()
     {
-        SpawnEnemy();
+        spawnenemy();
     }
 
     // Update is called once per frame
@@ -24,16 +24,16 @@ public class enemyspawner : MonoBehaviour
         }
         else
         {
-            SpawnEnemy();
+            spawnenemy();
             timer = 0;
         }
     }
-
-    void SpawnEnemy()
+    void spawnenemy()
     {
         float lowestpoint = transform.position.y - HeightOffset;
-        float Highestpoint = transform.position.y  + HeightOffset;
-        enemy.SetActive(true);
-        Instantiate(enemy, new Vector3(transform.position.x,Random.Range(lowestpoint,Highestpoint),-10),transform.rotation);
+        float Highestpoint = transform.position.y + HeightOffset;
+        Instantiate(enemy, new Vector3(transform.position.x, Random.Range(lowestpoint, Highestpoint), -10), transform.rotation);
     }
+
 }
+

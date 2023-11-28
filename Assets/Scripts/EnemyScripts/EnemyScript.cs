@@ -13,10 +13,12 @@ public class enemyscript : MonoBehaviour
     [SerializeField]
     private Transform EnemyAttackPoint;
 
-    private float attackTimer = 0f;
-    public float timeBetweenAttacks = 2f;
-    public string target;
     public float deathzone = -19;
+    private float attackTimer = 0f;
+    public float timeBetweenAttacks = 10f;
+    public string target;
+    public string target1;
+
 
     void Start()
     {
@@ -44,8 +46,8 @@ public class enemyscript : MonoBehaviour
         // Check if the attackTimer exceeds the timeBetweenAttacks
         if (attackTimer >= timeBetweenAttacks)
         {
+            Debug.Log("AttackTimeTick");
             attackTimer = 0f; // Reset the attack timer
-            EnemyBullet.SetActive(true);
             Instantiate(EnemyBullet, EnemyAttackPoint.position, Quaternion.identity);
         }
     }
@@ -53,12 +55,31 @@ public class enemyscript : MonoBehaviour
     {
         if (transform.position.x < deathzone)
         {
-            gameObject.SetActive(false); // Destroy this specific enemy when it crosses the deathzone
+            Destroy(this.gameObject); // Destroy this specific enemy when it crosses the deathzone
+        }
+
+
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (target == collision.name)
+        {
+            Debug.Log("collision.detected" + collision.name);
+
+            if (target == "Spaceship")
+            {
+                collision.gameObject.GetComponent<PlayerController>().addHealth(-10);
+                Death();
+            }
+            if (target == "playerBullet")
+            {
+                
+                Death();
+            }
         }
     }
     public void Death()
     {
-        gameObject.SetActive(false);
+        Destroy(this.gameObject);
     }
-
 }

@@ -176,3 +176,5 @@ MonoBehaviour:
   target: Enemy
   target1: Enemy Bullet
   logic: {fileID: 0}
+  audioSource: {fileID: 1434534170769270980, guid: c707759992320854a851b7093ce86c5b, type: 3}
+  clip: {fileID: 8300000, guid: 823a1ca206b584a30a9b882f17466a4d, type: 3}

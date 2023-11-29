@@ -42,7 +42,6 @@ public class enemybulletscript : MonoBehaviour
     {
         if (target == collision.name)
         {
-            Debug.Log("collision.detected" + collision.name);
 
             if (target == "Spaceship")
             {

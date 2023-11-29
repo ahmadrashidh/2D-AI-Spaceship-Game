@@ -19,6 +19,8 @@ public class enemyscript : MonoBehaviour
     public string target;
     public string target1;
     private Animator anim;
+    public AudioSource audioSource;
+    public AudioClip clip;
 
 
     void Start()
@@ -63,20 +65,19 @@ public class enemyscript : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (target == collision.name)
-        {
-            Debug.Log("collision.detected" + collision.name);
+        Debug.Log("Enemy Collision:" + collision.gameObject.name);
 
-            if (target == "Spaceship")
-            {
-                collision.gameObject.GetComponent<PlayerController>().addHealth(-10);
-                Death();
-            }
-            if (target == "playerBullet")
-            {
-                
-                Death();
-            }
+        if ("Spaceship" == collision.gameObject.name)
+        {
+            audioSource.PlayOneShot(clip);
+            collision.gameObject.GetComponent<PlayerController>().addHealth(-10);
+            Death();
+        }
+
+        if ("Player Bullet" == collision.gameObject.name)
+        {
+            audioSource.PlayOneShot(clip);
+            Death();
         }
     }
     public void Death()

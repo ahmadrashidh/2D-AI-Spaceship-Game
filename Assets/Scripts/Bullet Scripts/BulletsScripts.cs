@@ -10,6 +10,8 @@ public class BulletsScripts : MonoBehaviour
     public string target1;
     
     public LogicManager logic;
+    public AudioSource audioSource;
+    public AudioClip clip;
     // Start is called before the first frame update
     void Start()
     {
@@ -40,17 +42,12 @@ public class BulletsScripts : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (target == collision.name)
+        if ("Enemy(Clone)" == collision.gameObject.name)
         {
-            Debug.Log("collision.detected" + collision.name);
+            Debug.Log("Collision");
+            audioSource.PlayOneShot(clip);
+            collision.gameObject.GetComponent<enemyscript>().Death();
 
-            if (target == "Spaceship")
-            {
-                
-                collision.gameObject.GetComponent<enemyscript>().Death();
-
-            }
-            
         }
     }
 

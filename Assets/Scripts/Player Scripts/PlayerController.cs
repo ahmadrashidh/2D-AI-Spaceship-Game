@@ -24,8 +24,10 @@ public class PlayerController : MonoBehaviour
     public float health;
     public Image progressFill;
     private Vector3 progressScale;
-
+    private Animator anim;
     public LogicManager logic;
+    public AudioSource audioSource;
+    public AudioClip clip;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +36,7 @@ public class PlayerController : MonoBehaviour
         crntAttackTimer = attackTimer;
         health = 100;
         logic = GameObject.FindGameObjectWithTag("logic").GetComponent<LogicManager>();
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -56,6 +59,7 @@ public class PlayerController : MonoBehaviour
 
         if (health < 0f)
         {
+            anim.Play("Player Destroy");
             gameObject.SetActive(false);
             logic.GameOver();
         }
@@ -103,6 +107,7 @@ public class PlayerController : MonoBehaviour
             {
                 canAttack = false;
                 attackTimer = 0f;
+                audioSource.PlayOneShot(clip);
                 Instantiate(playerBullet, attackPoint.position, Quaternion.identity);
             }
             

@@ -9,6 +9,8 @@ public class enemyspawner : MonoBehaviour
     public float spawnRate = 2;
     public float timer = 0;
     public float HeightOffset = 10;
+    private const int NO_ENEMIES = 2;
+    private int ctr_enemies = 0;
 
     void Start()
     {
@@ -27,12 +29,21 @@ public class enemyspawner : MonoBehaviour
             spawnenemy();
             timer = 0;
         }
+
     }
+
     void spawnenemy()
     {
         float lowestpoint = transform.position.y - HeightOffset;
         float Highestpoint = transform.position.y + HeightOffset;
-        Instantiate(enemy, new Vector3(transform.position.x, Random.Range(lowestpoint, Highestpoint), -10), transform.rotation);
+
+        if(ctr_enemies < NO_ENEMIES)
+        {
+            Debug.Log("SpawningEnemy: " + ctr_enemies);
+            Instantiate(enemy, new Vector3(transform.position.x, Random.Range(lowestpoint, Highestpoint), -10), transform.rotation);
+            ctr_enemies++;
+        }
+            
     }
 
 }

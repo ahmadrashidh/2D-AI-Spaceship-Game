@@ -205,13 +205,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a36fda34c0027148967af08bcfe3a08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1.4
+  player: {fileID: 4550334768311489840, guid: 161566fcd9e134d44bac39e81b2e2e0f, type: 3}
   EnemyBullet: {fileID: 5876379576869607263, guid: 1cd261935f46741498fa84eba43268f8, type: 3}
   EnemyAttackPoint: {fileID: 5463994179254381797}
   deathzone: -19
+  moveSpeed: 1.4
   timeBetweenAttacks: 2
-  target: Spaceship
-  target1: 
   audioSource: {fileID: 1176227954927490266}
   clip: {fileID: 8300000, guid: 823a1ca206b584a30a9b882f17466a4d, type: 3}
 --- !u!95 &2661085978667441527

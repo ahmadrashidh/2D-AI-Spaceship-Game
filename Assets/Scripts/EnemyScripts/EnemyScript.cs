@@ -6,7 +6,7 @@ using System;
 public class enemyscript : MonoBehaviour
 {
     enum states { New, Patrol, Attack}
-    enum moveDir { Up, Down}
+    public enum moveDir { Up, Down}
 
     [SerializeField]
     private GameObject EnemyBullet;
@@ -14,13 +14,18 @@ public class enemyscript : MonoBehaviour
     [SerializeField]
     private Transform EnemyAttackPoint;
 
-    // Move fields
+    // Movement
     public float deathzone = -19;
     public float moveSpeed = 5;
+    public moveDir dir { get; set; }
+    public float TOP = 4.54f;
+    public float BOTTOM = -3.95f;
 
     // Attack fields
     private float attackTimer = 0f;
-    public float timeBetweenAttacks = 10f;
+    public float timeBetweenAttacks = 4f;
+    private float forwardAttackTimer = 0f;
+    private float forwardAttackTimeBoundary = 8f;
 
     // Animator, Audio Source
     private Animator anim;
@@ -28,27 +33,29 @@ public class enemyscript : MonoBehaviour
     public AudioClip clip;
 
     // Interacting Object
-    private GameObject player;
-    private GameObject scene;
-    private Vector2 screenPosition;
-
-
+    private GameObject[] teamOnGround;
+    
     // FSM
     private states state;
 
     void Start()
     {
         this.state = states.New;
-
         anim = GetComponent<Animator>();
+        teamOnGround = GameObject.FindGameObjectsWithTag("enemy");
+        setRandomDir();
+    }
 
-        player = GameObject.FindGameObjectWithTag("spaceship").gameObject;
-        screenPosition = Camera.main.WorldToScreenPoint(transform.position);
+    void setRandomDir()
+    {
+        Array values = Enum.GetValues(typeof(moveDir));
+        this.dir = (moveDir)values.GetValue(new System.Random().Next(values.Length));
     }
 
     // Update is called once per frame
     void Update()
     {
+        teamOnGround = GameObject.FindGameObjectsWithTag("enemy");
         play();
         CheckDeathZone();
     }
@@ -57,7 +64,6 @@ public class enemyscript : MonoBehaviour
     {
         Debug.Log("State:" + this.state);
 
-
         switch (this.state)
         {
             case states.New:
@@ -65,7 +71,7 @@ public class enemyscript : MonoBehaviour
                 break;
 
             case states.Patrol:
-                findPlayer();
+                Patrol();
                 break;
 
             case states.Attack:
@@ -89,16 +95,15 @@ public class enemyscript : MonoBehaviour
     }
 
 
-
-    void findPlayer()
+    void Patrol()
     {
 
         if (atFiringRange())
         {
-            Debug.Log("Player Detected");
             this.state = states.Attack;
 
-        } else
+        }
+        else //move
         {
             move();
         }
@@ -106,58 +111,117 @@ public class enemyscript : MonoBehaviour
 
     void move()
     {
-        Array values = Enum.GetValues(typeof(moveDir));
-        System.Random rnd = new System.Random();
-        moveDir dir = (moveDir) values.GetValue(rnd.Next(values.Length));
-
-        Debug.Log("Move Direction");
-        if(dir == moveDir.Up)
+        if(transform.position.y >= TOP)
         {
-            // check boundaries
-            // what if other enemy on the way
+            moveDown();
+            dir = moveDir.Down;
 
-        } else // moveDir.Down
+        } else if(transform.position.y <= BOTTOM)
         {
-            // check boundaries and other enemy
-            // what if other enemy on the way
+            moveUp();
+            dir = moveDir.Up;
+        } else
+        {
+            if(dir == moveDir.Up)
+            {
+                moveUp();
+            } else
+            {
+                moveDown();
+            }
         }
+    }
 
+    void moveUp()
+    {
+        Vector3 newPosition = transform.position + (Vector3.up * moveSpeed) * Time.deltaTime;
+        transform.position = newPosition;
+    }
 
-
+    void moveDown()
+    {
+        Vector3 newPosition = transform.position + (Vector3.down * moveSpeed) * Time.deltaTime;
+        transform.position = newPosition;
     }
 
 
+    bool isOverlapEnemy(Vector3 pos)
+    {
+        BoxCollider2D boxCollider = this.GetComponent<BoxCollider2D>();
 
+        if(boxCollider != null)
+        {
 
-    void Attack()
+            Vector2 center = boxCollider.bounds.center;
+            Vector2 size = boxCollider.bounds.size;
+
+            center.y = pos.y;
+            Collider2D collider = Physics2D.OverlapBox(center, size, 0f, LayerMask.GetMask("Ignore Raycast"));
+
+            if(collider == null)
+            {
+                return false;
+            } else
+            {
+                Debug.Log("OverlapCollider:" + collider.gameObject.name);
+                return true;
+            }
+        }
+
+        Debug.Log("EnemyNotBoxCollider");
+        return false;
+
+    }
+
+    void shoot()
     {
         attackTimer += Time.deltaTime;
 
         if (attackTimer >= timeBetweenAttacks)
         {
-            attackTimer = 0f; 
+            attackTimer = 0f;
             Instantiate(EnemyBullet, EnemyAttackPoint.position, Quaternion.identity);
-        }
-
-        if (!atFiringRange())
-        {
-            Debug.Log("Enemy Moved");
-            this.state = states.Patrol;
-
         }
     }
 
+
+    void Attack()
+    {
+
+        forwardAttackTimer += Time.deltaTime;
+
+        if(forwardAttackTimer >= forwardAttackTimeBoundary)
+        {
+            forwardAttack();
+        } else
+        {
+            shoot();
+        }
+
+
+        if (!atFiringRange())
+        {
+            Debug.Log("PlayerEvaded");
+            this.state = states.Patrol;
+        }
+    }
+
+    void forwardAttack()
+    {
+        transform.position = transform.position + (Vector3.left * moveSpeed) * Time.deltaTime;
+        shoot();
+    }
+
+
     bool atFiringRange()
     {
-        double playerY = Math.Abs(player.transform.position.y);
-        double enemyY = Math.Abs(transform.position.y);
 
-        double enemyTopVision = enemyY + 0.5;
-        double enemyBottomVision = enemyY - 0.5;
+        Vector3 directionToPlayer = Vector3.left;
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector3.left, LayerMask.GetMask("PlayerAcc"));
 
-        Debug.Log("SearchPosition::" + playerY + " < " + enemyTopVision + "&&" + playerY + ">" + enemyBottomVision);
+        Debug.DrawRay(transform.position, Vector3.left);
 
-        return (playerY < enemyTopVision && playerY > enemyBottomVision);
+        return (hit.collider != null && hit.collider.CompareTag("spaceship"));
 
     }
 
@@ -168,12 +232,9 @@ public class enemyscript : MonoBehaviour
             Destroy(this.gameObject); 
         }
 
-
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Enemy Collision:" + collision.gameObject.name);
-
         if ("Spaceship" == collision.gameObject.name)
         {
             audioSource.PlayOneShot(clip);
@@ -186,7 +247,30 @@ public class enemyscript : MonoBehaviour
             audioSource.PlayOneShot(clip);
             Death();
         }
+
+        if("Enemy(Clone)" == collision.gameObject.name)
+        {
+            enemyscript collider = collision.gameObject.GetComponent<enemyscript>();
+
+            if (this.dir == moveDir.Up)
+            {
+                this.dir = moveDir.Down;
+                collider.dir = moveDir.Up;
+            } else
+            {
+                this.dir = moveDir.Up;
+                collider.dir = moveDir.Down;
+
+            }
+
+
+
+            Debug.Log("GO_Direction::" + this.dir + "Collider_GO_Direction::" + collider.dir);
+
+        }
+
     }
+
     public void Death()
     {
         anim.Play("destruction");

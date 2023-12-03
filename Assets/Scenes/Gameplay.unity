@@ -1866,6 +1866,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 996155454378041572, guid: 161566fcd9e134d44bac39e81b2e2e0f, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 2401824539414394814, guid: 161566fcd9e134d44bac39e81b2e2e0f, type: 3}
       propertyPath: clip
       value: 
@@ -1929,6 +1933,10 @@ PrefabInstance:
     - target: {fileID: 4550334768311489840, guid: 161566fcd9e134d44bac39e81b2e2e0f, type: 3}
       propertyPath: m_Name
       value: Spaceship
+      objectReference: {fileID: 0}
+    - target: {fileID: 4550334768311489840, guid: 161566fcd9e134d44bac39e81b2e2e0f, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4550334768311489840, guid: 161566fcd9e134d44bac39e81b2e2e0f, type: 3}
       propertyPath: m_IsActive

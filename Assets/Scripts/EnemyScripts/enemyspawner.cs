@@ -9,7 +9,7 @@ public class enemyspawner : MonoBehaviour
     public float spawnRate = 2;
     public float timer = 0;
     public float HeightOffset = 10;
-    private const int NO_ENEMIES = 2;
+    private const int NO_ENEMIES = 1;
     private int ctr_enemies = 0;
 
     void Start()
@@ -37,6 +37,7 @@ public class enemyspawner : MonoBehaviour
         float lowestpoint = transform.position.y - HeightOffset;
         float Highestpoint = transform.position.y + HeightOffset;
 
+        Debug.Log("ctr_enemies:" + ctr_enemies);
         if(ctr_enemies < NO_ENEMIES)
         {
             Debug.Log("SpawningEnemy: " + ctr_enemies);

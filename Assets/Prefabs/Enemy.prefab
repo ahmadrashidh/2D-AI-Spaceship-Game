@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5463994179254381797}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: enemyattackpoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,12 +43,12 @@ GameObject:
   - component: {fileID: 1738084938136201310}
   - component: {fileID: 2050340043595534116}
   - component: {fileID: 6948125675557795190}
-  - component: {fileID: 289893211950594972}
   - component: {fileID: 2661085978667441527}
   - component: {fileID: 1176227954927490266}
-  m_Layer: 0
+  - component: {fileID: 2235706612168743065}
+  m_Layer: 2
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -61,7 +61,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8883196334904142158}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.0023180514, y: 0.0023180526, z: 0.707103, w: 0.707103}
+  m_LocalRotation: {x: 0.002320185, y: 0.002320185, z: 0.707103, w: 0.707103}
   m_LocalPosition: {x: 14.16, y: 0.06, z: -10.1}
   m_LocalScale: {x: 0.3, y: 0.2, z: 1}
   m_ConstrainProportionsScale: 0
@@ -193,26 +193,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &289893211950594972
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8883196334904142158}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a36fda34c0027148967af08bcfe3a08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 4550334768311489840, guid: 161566fcd9e134d44bac39e81b2e2e0f, type: 3}
-  EnemyBullet: {fileID: 5876379576869607263, guid: 1cd261935f46741498fa84eba43268f8, type: 3}
-  EnemyAttackPoint: {fileID: 5463994179254381797}
-  deathzone: -19
-  moveSpeed: 1.4
-  timeBetweenAttacks: 2
-  audioSource: {fileID: 1176227954927490266}
-  clip: {fileID: 8300000, guid: 823a1ca206b584a30a9b882f17466a4d, type: 3}
 --- !u!95 &2661085978667441527
 Animator:
   serializedVersion: 5
@@ -330,3 +310,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2235706612168743065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8883196334904142158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a36fda34c0027148967af08bcfe3a08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EnemyBullet: {fileID: 5876379576869607263, guid: 1cd261935f46741498fa84eba43268f8, type: 3}
+  EnemyAttackPoint: {fileID: 5463994179254381797}
+  deathzone: -19
+  moveSpeed: 5
+  timeBetweenAttacks: 10
+  audioSource: {fileID: 0}
+  clip: {fileID: 0}
+  TOP: 4.54
+  BOTTOM: -3.95
